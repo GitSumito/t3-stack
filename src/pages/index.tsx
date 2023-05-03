@@ -4,6 +4,8 @@ import { Layout } from "../components/Layout";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { ArrowLeftOnRectangleIcon} from "@heroicons/react/24/solid";
+import { TaskForm } from "../components/TaskForm";
+import { TaskList } from "../components/TaskList";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -22,6 +24,8 @@ const Home: NextPage = () => {
         onClick={() => signOut()} />
       <p className="my-3 text-xl text-blue-600">
         {session?.user?.name}</p>
+        <TaskForm />
+        <TaskList />
     </Layout>
   );
 };
