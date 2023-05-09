@@ -1,7 +1,9 @@
+// 必要なモジュールをインポート
 import { router } from "../trpc";
 import { todoRouter } from "./todo";
 
-export const appRouter = router({ todo:todoRouter});
+// 全体のルータを作成。ここではtodoRouterを持つルータを定義しています。
+export const appRouter = router({ todo: todoRouter });
 
-// export type definition of API
+// 全体のルータの型定義をエクスポート
 export type AppRouter = typeof appRouter;

@@ -1,71 +1,74 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// Prisma スキーマファイルです。詳細はドキュメントを参照してください: https://pris.ly/d/prisma-schema
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client-js" // Prisma クライアントのプロバイダーを指定
 }
 
+// データソース（データベース）の設定
 datasource db {
-  provider = "postgresql"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
+  provider = "postgresql" // データベースの種類を指定
+  // NOTE: postgresql, mysql, sqlserver を使用する場合、下記の Account モデル内の @db.Text 注釈をアンコメントしてください
+  // 詳細については以下を参照してください:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") // データベースの接続URLを環境変数から取得
 }
 
+// タスクモデルの定義
 model Task{
-  id String @unique @default(cuid())
-  title String
-  body String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user User @relation(fields: [userId], references: [id])
-  userId String
+  id String @unique @default(cuid()) // ユニークなID、デフォルトは cuid() を使用
+  title String // タスクのタイトル
+  body String // タスクの本文
+  createdAt DateTime @default(now()) // タスクの作成日時、デフォルトは現在時刻
+  updatedAt DateTime @updatedAt // タスクの更新日時
+  user User @relation(fields: [userId], references: [id]) // User モデルへのリレーション
+  userId String // ユーザーID
 }
 
-// Necessary for Next auth
+// Next auth に必要なアカウントモデル
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? // @db.Text
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid()) // ユニークなID、デフォルトは cuid() を使用
+  userId            String // ユーザーID
+  type              String // アカウントの種類
+  provider          String // プロバイダー
+  providerAccountId String // プロバイダーアカウントID
+  refresh_token     String? // リフレッシュトークン
+  access_token      String? // アクセストークン
+  expires_at        Int? // 有効期限
+  token_type        String? // トークンの種類
+  scope             String? // スコープ
+  id_token          String? // IDトークン
+  session_state     String? // セッション状態
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade) // User モデルへのリレーション、ユーザーが削除されたら連動して削除
 
-  @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId]) // provider と providerAccountId の組み合わせがユニークであることを保証
 }
 
+// セッションモデルの定義
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid()) // ユニークなID、デフォルトは cuid() を使用
+  sessionToken String   @unique // セッショントークン
+  userId       String // ユーザーID
+  expires      DateTime // 有効期限
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade) // User モデルへのリレーション、ユーザーが削除されたら連動して削除
 }
 
+// ユーザーモデルの定義
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  tasks Task[]
+  id            String    @id @default(cuid()) // ユニークなID、デフォルトは cuid() を使用
+  name          String? // ユーザー名
+  email         String?   @unique // メールアドレス
+  emailVerified DateTime? // メールアドレスの確認日時
+  image         String? // ユーザーの画像
+  accounts      Account[] // Account モデルへのリレーション
+  sessions      Session[] // Session モデルへのリレーション
+  tasks Task[] // Task モデルへのリレーション
 }
 
+// 認証トークンモデルの定義
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+  identifier String // 識別子
+  token      String   @unique // トークン
+  expires    DateTime // 有効期限
 
-  @@unique([identifier, token])
+  @@unique([identifier, token]) // identifier と token の組み合わせがユニークであることを保証
 }
