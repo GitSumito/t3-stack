@@ -7,7 +7,11 @@ type Props = {
     children: ReactNode
 }
 
+// 引数を受け取る場合、このような書き方をする
 // Layout コンポーネントを定義します。Props の型を持つ子コンポーネントとタイトルを受け取ります。
+// FC<Props>はFunctional Componentの略で、Reactの関数型コンポーネントを示します。
+// Propsはそのコンポーネントが受け取るプロパティの型を指定します。
+// つまり、この宣言はLayoutが関数型コンポーネントであり、プロパティとしてchildrenとtitleを受け取ることを示しています。
 export const Layout: FC<Props> =({ children, title = 'T3 Stack' }) => {
     return (
         // フラグメント <> で囲まれた JSX を返します。*/}

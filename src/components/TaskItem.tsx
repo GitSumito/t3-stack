@@ -16,7 +16,11 @@ import { useMutateTask } from "../hooks/useMutateTask"; // タスクの作成、
 export const TaskItem: FC<updateTaskInput> = ({ taskId, title, body }) => { // タスク一つ分の情報を表示するコンポーネントです。taskId、title、bodyの3つのプロパティを持つオブジェクトを引数に取ります
 
   // 編集中のタスクを更新する関数を取得
-  const update = useStore((state) => state.updateEditedTask); // グローバルステートから編集中のタスクを更新する関数を取得します
+  // useStoreはZustandのステートをフック（取得）するためのカスタムフックです。
+  // これにより、Reactのコンポーネント内でZustandのステートを読み取ることができます。
+  // この関数は、Zustandのステートを更新するために使用されます。ここでstateは現在の全体のZustandのステートを表します。
+  // また、stateは直接宣言されていませんが、useStoreフックを使用するときに自動的に提供されます。
+  const update = useStore((state) => state.updateEditedTask);
 
   // タスクを削除するためのミューテーションを取得
   const { deleteTaskMutation } = useMutateTask(); // タスクを削除するためのミューテーションを取得します

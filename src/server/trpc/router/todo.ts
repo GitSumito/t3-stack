@@ -16,6 +16,7 @@ export const todoRouter = t.router({
     // このAPIはデータベースに変更を加えるため、mutationとして定義します
     .mutation(async ({ ctx, input }) => {
       // ctx.prisma.task.createは、Prisma Clientのタスクモデルを使用して新しいタスクを作成します
+      // このコードにおけるテーブル名は task
       const task = await ctx.prisma.task.create({
         data: {
           // ...inputは、inputオブジェクトの全てのプロパティを展開します

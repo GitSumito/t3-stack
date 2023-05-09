@@ -9,8 +9,17 @@ import { TaskForm } from "../components/TaskForm";
 import { TaskList } from "../components/TaskList";
 
 // ホームページのコンポーネントを定義
+// NextPage はNext.jsの型定義で、Next.jsのページコンポーネントの型を示します。
+// Next.jsでは、ページはReactコンポーネントとして表現されます。
+// これらのコンポーネントは特定のプロパティ（例えば、初期化のためのgetInitialPropsやサーバーサイドレンダリングのためのgetServerSidePropsなど）を持つことができます。
+// NextPage型は、これらの特定のプロパティを持つ可能性があるコンポーネントを示します。
+// つまり、NextPage型を持つコンポーネントはNext.jsのページとして使用できます。
+// ここでの const Home: NextPage = () => {...} は、
+// Homeという関数コンポーネントがNext.jsのページコンポーネントであることを示しています。
+// この型をつけることで、必要な場合にNext.js特有のプロパティやメソッドをHomeコンポーネントに追加できるようになります。
 const Home: NextPage = () => {
-  // 現在のセッションデータを取得
+  // useSessionはnext-authライブラリが提供するReactのフックで、現在のユーザーセッションを取得
+  // useSession()から返されるオブジェクトにあるdataプロパティを取り出し、それを新しい変数sessionに代入します。
   const { data: session } = useSession();
 
   // セッションが存在しない場合はログイン画面を表示
